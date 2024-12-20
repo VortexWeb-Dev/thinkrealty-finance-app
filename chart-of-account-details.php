@@ -6,21 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Finance Module - Account Details</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        #sidebar {
-            height: 100vh;
-            position: fixed;
-        }
-
-        .nav-link.active {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .main-content {
-            margin-left: 250px;
-        }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/index.css">
 </head>
 
 <body>
@@ -56,14 +43,21 @@
                     $account = $accounts[$account_number];
 
                     if ($account) {
+                        echo '<div class="card shadow">';
+                        echo '<div class="card-body">';
                         echo '<table class="table table-bordered">';
-                        echo '<tr><th>Account Number</th><td>' . $account['number'] . '</td></tr>';
-                        echo '<tr><th>Account Name</th><td>' . $account['name'] . '</td></tr>';
-                        echo '<tr><th>Account Type</th><td>' . $account['type'] . '</td></tr>';
-                        echo '<tr><th>Opening Balance</th><td>' . $account['opening_balance'] . '</td></tr>';
+                        foreach ($account as $key => $value) {
+                            echo '<tr><th>' . ucwords(str_replace('_', ' ', $key)) . '</th><td>' . $value . '</td></tr>';
+                        }
                         echo '</table>';
+                        echo '</div>';
+                        echo '</div>';
                     } else {
+                        echo '<div class="card shadow">';
+                        echo '<div class="card-body">';
                         echo '<p>Account not found.</p>';
+                        echo '</div>';
+                        echo '</div>';
                     }
                     ?>
 

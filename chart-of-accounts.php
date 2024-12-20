@@ -6,21 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Finance Module - Chart of Accounts</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        #sidebar {
-            height: 100vh;
-            position: fixed;
-        }
-
-        .nav-link.active {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .main-content {
-            margin-left: 250px;
-        }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/index.css">
 </head>
 
 <body>
@@ -48,39 +35,43 @@
                     <hr>
 
                     <!-- Accounts List -->
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Account Number</th>
-                                <th>Account Name</th>
-                                <th>Account Type</th>
-                                <th>Opening Balance</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            // Dummy data for demonstration
-                            $accounts = [
-                                ['number' => '101', 'name' => 'Cash', 'type' => 'Asset', 'opening_balance' => '$1000.00'],
-                                ['number' => '201', 'name' => 'Accounts Receivable', 'type' => 'Asset', 'opening_balance' => '$500.00'],
-                                ['number' => '301', 'name' => 'Accounts Payable', 'type' => 'Liability', 'opening_balance' => '$200.00'],
-                                ['number' => '401', 'name' => 'Sales Revenue', 'type' => 'Revenue', 'opening_balance' => '$0.00'],
-                                ['number' => '501', 'name' => 'Rent Expense', 'type' => 'Expense', 'opening_balance' => '$0.00'],
-                            ];
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Account Number</th>
+                                        <th>Account Name</th>
+                                        <th>Account Type</th>
+                                        <th>Opening Balance</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    // Dummy data for demonstration
+                                    $accounts = [
+                                        ['number' => '101', 'name' => 'Cash', 'type' => 'Asset', 'opening_balance' => '$1000.00'],
+                                        ['number' => '201', 'name' => 'Accounts Receivable', 'type' => 'Asset', 'opening_balance' => '$500.00'],
+                                        ['number' => '301', 'name' => 'Accounts Payable', 'type' => 'Liability', 'opening_balance' => '$200.00'],
+                                        ['number' => '401', 'name' => 'Sales Revenue', 'type' => 'Revenue', 'opening_balance' => '$0.00'],
+                                        ['number' => '501', 'name' => 'Rent Expense', 'type' => 'Expense', 'opening_balance' => '$0.00'],
+                                    ];
 
-                            foreach ($accounts as $account) {
-                                echo '<tr>';
-                                echo '<td>' . $account['number'] . '</td>';
-                                echo '<td>' . $account['name'] . '</td>';
-                                echo '<td>' . $account['type'] . '</td>';
-                                echo '<td>' . $account['opening_balance'] . '</td>';
-                                echo '<td><a href="chart-of-account-details.php?number=' . $account['number'] . '">View Details</a></td>';
-                                echo '</tr>';
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+                                    foreach ($accounts as $account) {
+                                        echo '<tr>';
+                                        echo '<td>' . $account['number'] . '</td>';
+                                        echo '<td>' . $account['name'] . '</td>';
+                                        echo '<td>' . $account['type'] . '</td>';
+                                        echo '<td>' . $account['opening_balance'] . '</td>';
+                                        echo '<td><a href="chart-of-account-details.php?number=' . $account['number'] . '"><i class="fa fa-eye mr-2"></i>View Details</a></td>';
+                                        echo '</tr>';
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>

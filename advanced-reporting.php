@@ -1,35 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Finance Module - Analytics</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        #sidebar {
-            height: 100vh;
-            position: fixed;
-        }
-
-        .nav-link.active {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .main-content {
-            margin-left: 250px;
-        }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/index.css">
 </head>
 
 <body>
     <div class="container-fluid">
         <div class="row">
             <!-- Include Sidebar -->
-            <div id="sidebar" class="col-md-3">
-                <?php include './inc/sidebar.php'; ?>
-            </div>
+            <?php include './inc/sidebar.php'; ?>
 
             <!-- Main Content -->
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 main-content">
@@ -39,6 +23,7 @@
                 <!-- Analytics Content -->
                 <div class="container mt-4">
                     <h1>
+                        <i class="fas fa-chart-pie mr-2"></i>
                         <?php
                         require_once 'utils.php';
                         $page_url = basename($_SERVER['REQUEST_URI']); // analytics.php
@@ -51,31 +36,74 @@
 
                     <!-- Analytics Sections -->
                     <div class="row">
-                        <div class="col-md-6 ">
-                            <h3>Revenue Analysis</h3>
-                            <canvas id="revenueChart"></canvas>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>
+                                        <i class="fas fa-dollar-sign mr-2"></i>
+                                        Revenue Analysis
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="revenueChart"></canvas>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6 ">
-                            <h3>Expense Analysis</h3>
-                            <canvas id="expenseChart"></canvas>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>
+                                        <i class="fas fa-credit-card mr-2"></i>
+                                        Expense Analysis
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="expenseChart"></canvas>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="row mt-4">
-                        <div class="col-md-6 ">
-                            <h3>Profit and Loss</h3>
-                            <canvas id="profitLossChart"></canvas>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>
+                                        <i class="fas fa-balance-scale mr-2"></i>
+                                        Profit and Loss
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="profitLossChart"></canvas>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6 ">
-                            <h3>Cash Flow</h3>
-                            <canvas id="cashFlowChart"></canvas>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>
+                                        <i class="fas fa-money-check-alt mr-2"></i>
+                                        Cash Flow
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="cashFlowChart"></canvas>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="row mt-4">
                         <div class="col-md-12">
-                            <h3>Key Performance Indicators</h3>
-                            <table class="table table-striped">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>
+                                        <i class="fas fa-cogs mr-2"></i>
+                                        Key Performance Indicators
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>Indicator</th>

@@ -4,103 +4,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Finance Module</title>
+    <title>Finance Dashboard</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        #sidebar {
-            height: 100vh;
-            position: fixed;
-        }
-
-        .nav-link.active {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .main-content {
-            margin-left: 250px;
-        }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/index.css">
 </head>
 
 <body>
-    <div id="sidebar">
-        <!-- Include Sidebar -->
-        <?php include './inc/sidebar.php'; ?>
-    </div>
+    <!-- Include Sidebar -->
+    <?php include './inc/sidebar.php'; ?>
 
-    <main role="main" class="main-content">
+    <main role="main" class="main-content bg-light">
         <!-- Include Navbar -->
         <?php include './inc/navbar.php'; ?>
 
-        <!-- Dummy Data Content -->
+        <!-- Enhanced Dummy Data Content -->
         <div class="container mt-4">
-            <h1>
+            <h1 class="text-primary mb-4">
                 <?php
                 require_once 'utils.php';
-                $page_url = basename($_SERVER['REQUEST_URI']); 
+                $page_url = basename($_SERVER['REQUEST_URI']);
                 $title = get_title($page_url);
                 echo $title;
                 ?>
             </h1>
             <hr>
-            <div class="row mb-4">
-                <div class="col-md-3">
-                    <div class="card text-white bg-primary mb-3">
+            <div class="row text-center mb-5">
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-3">
                         <div class="card-body">
-                            <h5 class="card-title">Total Revenue</h5>
-                            <p class="card-text">$120,000</p>
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Revenue</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">$120,000</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-calendar fa-2x text-primary"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card text-white bg-success mb-3">
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-3">
                         <div class="card-body">
-                            <h5 class="card-title">Total Expenses</h5>
-                            <p class="card-text">$80,000</p>
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Expenses</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">$80,000</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-dollar-sign fa-2x text-success"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card text-white bg-warning mb-3">
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card border-left-info shadow h-100 py-3">
                         <div class="card-body">
-                            <h5 class="card-title">Net Profit</h5>
-                            <p class="card-text">$40,000</p>
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Net Profit</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-clipboard-list fa-2x text-info"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card text-white bg-danger mb-3">
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card border-left-warning shadow h-100 py-3">
                         <div class="card-body">
-                            <h5 class="card-title">Outstanding Debts</h5>
-                            <p class="card-text">$10,000</p>
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Outstanding Debts</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">$10,000</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-comments fa-2x text-warning"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row mb-4">
+            <div class="row mb-5">
                 <div class="col-md-6">
-                    <h3>Recent Activities</h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">Invoice #1234 - Paid</li>
-                        <li class="list-group-item">Invoice #1235 - Due</li>
-                        <li class="list-group-item">Payment to Supplier X - Completed</li>
-                        <li class="list-group-item">Salary Disbursement - Pending</li>
+                    <h3 class="text-center">Recent Activities</h3>
+                    <ul class="list-group shadow">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Invoice #1234 - Paid
+                            <span class="badge badge-success badge-pill">Completed</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Invoice #1235 - Due
+                            <span class="badge badge-warning badge-pill">Pending</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Payment to Supplier X - Completed
+                            <span class="badge badge-success badge-pill">Completed</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Salary Disbursement - Pending
+                            <span class="badge badge-warning badge-pill">Pending</span>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-md-6">
-                    <h3>Quick Actions</h3>
-                    <button class="btn btn-primary btn-block mb-2">Create New Invoice</button>
-                    <button class="btn btn-secondary btn-block mb-2">Record Expense</button>
-                    <button class="btn btn-success btn-block mb-2">Generate Report</button>
+                    <h3 class="text-center">Quick Actions</h3>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary btn-block mb-3">Create New Invoice</button>
+                        <button class="btn btn-secondary btn-block mb-3">Record Expense</button>
+                        <button class="btn btn-success btn-block">Generate Report</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <h3>Financial Overview</h3>
-                    <canvas id="financialChart"></canvas>
+            <div class="financial-chart-container">
+                <div class="chart-title">Financial Overview</div>
+                <div class="card shadow">
+                    <div class="card-body">
+                        <canvas id="financialChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>

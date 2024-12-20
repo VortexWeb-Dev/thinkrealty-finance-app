@@ -6,21 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Finance Module - Income Statement</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        #sidebar {
-            height: 100vh;
-            position: fixed;
-        }
-
-        .nav-link.active {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .main-content {
-            margin-left: 250px;
-        }
-    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/index.css">
 </head>
 
 <body>
@@ -48,64 +35,68 @@
                     <hr>
 
                     <!-- Income Statement Table -->
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Category</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            // Dummy data for demonstration
-                            $revenues = [
-                                ['category' => 'Sales Revenue', 'amount' => '$15,000.00'],
-                                ['category' => 'Interest Income', 'amount' => '$1,000.00'],
-                            ];
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    // Dummy data for demonstration
+                                    $revenues = [
+                                        ['category' => 'Sales Revenue', 'amount' => '$15,000.00'],
+                                        ['category' => 'Interest Income', 'amount' => '$1,000.00'],
+                                    ];
 
-                            $expenses = [
-                                ['category' => 'Cost of Goods Sold', 'amount' => '$8,000.00'],
-                                ['category' => 'Operating Expenses', 'amount' => '$3,000.00'],
-                                ['category' => 'Interest Expense', 'amount' => '$500.00'],
-                            ];
+                                    $expenses = [
+                                        ['category' => 'Cost of Goods Sold', 'amount' => '$8,000.00'],
+                                        ['category' => 'Operating Expenses', 'amount' => '$3,000.00'],
+                                        ['category' => 'Interest Expense', 'amount' => '$500.00'],
+                                    ];
 
-                            // Calculate total revenues
-                            $total_revenues = array_reduce($revenues, function ($carry, $item) {
-                                return $carry + floatval(str_replace(',', '', substr($item['amount'], 1)));
-                            }, 0);
+                                    // Calculate total revenues
+                                    $total_revenues = array_reduce($revenues, function ($carry, $item) {
+                                        return $carry + floatval(str_replace(',', '', substr($item['amount'], 1)));
+                                    }, 0);
 
-                            // Calculate total expenses
-                            $total_expenses = array_reduce($expenses, function ($carry, $item) {
-                                return $carry + floatval(str_replace(',', '', substr($item['amount'], 1)));
-                            }, 0);
+                                    // Calculate total expenses
+                                    $total_expenses = array_reduce($expenses, function ($carry, $item) {
+                                        return $carry + floatval(str_replace(',', '', substr($item['amount'], 1)));
+                                    }, 0);
 
-                            // Calculate net income
-                            $net_income = $total_revenues - $total_expenses;
+                                    // Calculate net income
+                                    $net_income = $total_revenues - $total_expenses;
 
-                            // Display revenues
-                            foreach ($revenues as $item) {
-                                echo '<tr>';
-                                echo '<td>' . $item['category'] . '</td>';
-                                echo '<td>' . $item['amount'] . '</td>';
-                                echo '</tr>';
-                            }
+                                    // Display revenues
+                                    foreach ($revenues as $item) {
+                                        echo '<tr>';
+                                        echo '<td>' . $item['category'] . '</td>';
+                                        echo '<td>' . $item['amount'] . '</td>';
+                                        echo '</tr>';
+                                    }
 
-                            // Display expenses
-                            foreach ($expenses as $item) {
-                                echo '<tr>';
-                                echo '<td>' . $item['category'] . '</td>';
-                                echo '<td>(' . $item['amount'] . ')</td>';
-                                echo '</tr>';
-                            }
+                                    // Display expenses
+                                    foreach ($expenses as $item) {
+                                        echo '<tr>';
+                                        echo '<td>' . $item['category'] . '</td>';
+                                        echo '<td>(' . $item['amount'] . ')</td>';
+                                        echo '</tr>';
+                                    }
 
-                            // Display net income
-                            echo '<tr class="font-weight-bold">';
-                            echo '<td>Net Income</td>';
-                            echo '<td>' . ($net_income >= 0 ? '$' . number_format($net_income, 2) : '($' . number_format(abs($net_income), 2) . ')') . '</td>';
-                            echo '</tr>';
-                            ?>
-                        </tbody>
-                    </table>
+                                    // Display net income
+                                    echo '<tr class="font-weight-bold">';
+                                    echo '<td>Net Income</td>';
+                                    echo '<td>' . ($net_income >= 0 ? '$' . number_format($net_income, 2) : '($' . number_format(abs($net_income), 2) . ')') . '</td>';
+                                    echo '</tr>';
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>

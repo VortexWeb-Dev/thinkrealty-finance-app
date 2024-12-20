@@ -3,7 +3,7 @@
     <div class="sidebar-sticky">
         <ul class="nav flex-column">
             <div class="sidebar-header text-center pt-2">
-                <h3 class="mb-0">Think Realty</h3>
+                <h3 class="mb-0">Aghali</h3>
                 <hr class="mt-0">
             </div>
             <?php

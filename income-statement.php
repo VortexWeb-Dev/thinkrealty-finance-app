@@ -1,3 +1,30 @@
+<?php
+require 'db.php'; // Database connection file
+
+try {
+    // Query for total revenues
+    $revenues_query = "SELECT SUM(credit_amount) AS total_revenues FROM transactions WHERE account_type = :account_type_revenue";
+    $revenues_stmt = $conn->prepare($revenues_query);
+    $revenues_stmt->execute([':account_type_revenue' => 'Revenue']);
+    $revenues_result = $revenues_stmt->fetch(PDO::FETCH_ASSOC);
+    $total_revenues = $revenues_result['total_revenues'] ?? 0;
+
+    // Query for total expenses
+    $expenses_query = "SELECT SUM(debit_amount) AS total_expenses FROM transactions WHERE account_type = :account_type_expense";
+    $expenses_stmt = $conn->prepare($expenses_query);
+    $expenses_stmt->execute([':account_type_expense' => 'Expense']);
+    $expenses_result = $expenses_stmt->fetch(PDO::FETCH_ASSOC);
+    $total_expenses = $expenses_result['total_expenses'] ?? 0;
+
+    // Calculate net income
+    $net_income = $total_revenues - $total_expenses;
+} catch (PDOException $e) {
+    // Handle database query error
+    echo "Error: " . $e->getMessage();
+}
+?>
+
+
 <?php include './inc/header.php'; ?>
 
 <div class="container-fluid">
@@ -35,54 +62,34 @@
                             </thead>
                             <tbody>
                                 <?php
-                                // Dummy data for demonstration
-                                $revenues = [
-                                    ['category' => 'Sales Revenue', 'amount' => '$15,000.00'],
-                                    ['category' => 'Interest Income', 'amount' => '$1,000.00'],
-                                ];
+                                try {
+                                    // Fetch all revenue accounts
+                                    $revenue_query = "SELECT account_name, SUM(credit_amount) AS amount FROM transactions WHERE account_type = :account_type_revenue GROUP BY account_name";
+                                    $revenue_stmt = $conn->prepare($revenue_query);
+                                    $revenue_stmt->execute([':account_type_revenue' => 'Revenue']);
 
-                                $expenses = [
-                                    ['category' => 'Cost of Goods Sold', 'amount' => '$8,000.00'],
-                                    ['category' => 'Operating Expenses', 'amount' => '$3,000.00'],
-                                    ['category' => 'Interest Expense', 'amount' => '$500.00'],
-                                ];
+                                    while ($row = $revenue_stmt->fetch(PDO::FETCH_ASSOC)) {
+                                        echo "<tr><td>{$row['account_name']}</td><td>$" . number_format($row['amount'], 2) . "</td></tr>";
+                                    }
 
-                                // Calculate total revenues
-                                $total_revenues = array_reduce($revenues, function ($carry, $item) {
-                                    return $carry + floatval(str_replace(',', '', substr($item['amount'], 1)));
-                                }, 0);
+                                    // Fetch all expense accounts
+                                    $expense_query = "SELECT account_name, SUM(debit_amount) AS amount FROM transactions WHERE account_type = :account_type_expense GROUP BY account_name";
+                                    $expense_stmt = $conn->prepare($expense_query);
+                                    $expense_stmt->execute([':account_type_expense' => 'Expense']);
 
-                                // Calculate total expenses
-                                $total_expenses = array_reduce($expenses, function ($carry, $item) {
-                                    return $carry + floatval(str_replace(',', '', substr($item['amount'], 1)));
-                                }, 0);
+                                    while ($row = $expense_stmt->fetch(PDO::FETCH_ASSOC)) {
+                                        echo "<tr><td>{$row['account_name']}</td><td>($" . number_format($row['amount'], 2) . ")</td></tr>";
+                                    }
 
-                                // Calculate net income
-                                $net_income = $total_revenues - $total_expenses;
-
-                                // Display revenues
-                                foreach ($revenues as $item) {
-                                    echo '<tr>';
-                                    echo '<td>' . $item['category'] . '</td>';
-                                    echo '<td>' . $item['amount'] . '</td>';
-                                    echo '</tr>';
+                                    // Display net income
+                                    echo "<tr class='font-weight-bold'><td>Net Income</td><td>" . ($net_income >= 0 ? '$' . number_format($net_income, 2) : '($' . number_format(abs($net_income), 2) . ')') . "</td></tr>";
+                                } catch (PDOException $e) {
+                                    echo "<tr><td colspan='2'>Error: " . $e->getMessage() . "</td></tr>";
                                 }
-
-                                // Display expenses
-                                foreach ($expenses as $item) {
-                                    echo '<tr>';
-                                    echo '<td>' . $item['category'] . '</td>';
-                                    echo '<td>(' . $item['amount'] . ')</td>';
-                                    echo '</tr>';
-                                }
-
-                                // Display net income
-                                echo '<tr class="font-weight-bold">';
-                                echo '<td>Net Income</td>';
-                                echo '<td>' . ($net_income >= 0 ? '$' . number_format($net_income, 2) : '($' . number_format(abs($net_income), 2) . ')') . '</td>';
-                                echo '</tr>';
                                 ?>
                             </tbody>
+
+
                         </table>
                     </div>
                 </div>

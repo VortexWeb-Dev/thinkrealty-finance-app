@@ -1,3 +1,45 @@
+<?php
+require 'db.php';
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+
+// Query for total revenue
+$revenue_query = "SELECT SUM(credit_amount) AS total_revenue FROM transactions WHERE account_type = 'Revenue'";
+$revenue_stmt = $conn->prepare($revenue_query);
+$revenue_stmt->execute();
+$revenue_result = $revenue_stmt->fetch(PDO::FETCH_ASSOC);
+$total_revenue = $revenue_result['total_revenue'] ?? 0;
+
+// Query for total expenses
+$expenses_query = "SELECT SUM(debit_amount) AS total_expenses FROM transactions WHERE account_type = 'Expense'";
+$expenses_stmt = $conn->prepare($expenses_query);
+$expenses_stmt->execute();
+$expenses_result = $expenses_stmt->fetch(PDO::FETCH_ASSOC);
+$total_expenses = $expenses_result['total_expenses'] ?? 0;
+
+// Calculate net profit
+$net_profit = $total_revenue - $total_expenses;
+
+// Sample query for monthly data for the past 6 months
+$chart_data_query = "SELECT MONTH(transaction_date) AS month, SUM(credit_amount) AS revenue, SUM(debit_amount) AS expenses 
+                     FROM transactions 
+                     WHERE account_type IN ('Revenue', 'Expense') AND YEAR(transaction_date) = YEAR(CURRENT_DATE) 
+                     GROUP BY MONTH(transaction_date)";
+$chart_data_stmt = $conn->prepare($chart_data_query);
+$chart_data_stmt->execute();
+
+$months = [];
+$revenues = [];
+$expenses = [];
+while ($data = $chart_data_stmt->fetch(PDO::FETCH_ASSOC)) {
+    $months[] = date('M', mktime(0, 0, 0, $data['month'], 10)); // Get month abbreviation
+    $revenues[] = $data['revenue'];
+    $expenses[] = $data['expenses'];
+}
+?>
+
 <?php include './inc/header.php'; ?>
 
 <!-- Include Sidebar -->
@@ -25,7 +67,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Revenue</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">$120,000</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($total_revenue, 2); ?></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-calendar fa-2x text-primary"></i>
@@ -33,6 +75,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
             <div class="col-md-3 col-sm-6 mb-4">
                 <div class="card border-left-success shadow h-100 py-3">
@@ -40,7 +83,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Expenses</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">$80,000</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($total_expenses, 2); ?></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-dollar-sign fa-2x text-success"></i>
@@ -55,7 +98,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Net Profit</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">$<?php echo number_format($net_profit, 2); ?></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-clipboard-list fa-2x text-info"></i>
@@ -84,24 +127,22 @@
         <div class="row mb-5">
             <div class="col-md-6">
                 <h3 class="text-center">Recent Activities</h3>
+                <?php
+                $activities_query = "SELECT activity, status FROM activities ORDER BY date DESC LIMIT 5";
+                $activities_stmt = $conn->prepare($activities_query);
+                $activities_stmt->execute();
+                ?>
                 <ul class="list-group shadow">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Invoice #1234 - Paid
-                        <span class="badge badge-success badge-pill">Completed</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Invoice #1235 - Due
-                        <span class="badge badge-warning badge-pill">Pending</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Payment to Supplier X - Completed
-                        <span class="badge badge-success badge-pill">Completed</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        Salary Disbursement - Pending
-                        <span class="badge badge-warning badge-pill">Pending</span>
-                    </li>
+                    <?php while ($activity = $activities_stmt->fetch(PDO::FETCH_ASSOC)) { ?>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <?php echo $activity['activity']; ?>
+                            <span class="badge badge-<?php echo ($activity['status'] == 'Completed' ? 'success' : 'warning'); ?> badge-pill">
+                                <?php echo $activity['status']; ?>
+                            </span>
+                        </li>
+                    <?php } ?>
                 </ul>
+
             </div>
             <div class="col-md-6">
                 <h3 class="text-center">Quick Actions</h3>
@@ -132,21 +173,18 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', (event) => {
-        console.log('Document loaded, initializing chart');
-
-        // Sample data for financial overview chart
         var financialData = {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            labels: <?php echo json_encode($months); ?>,
             datasets: [{
                     label: 'Revenue',
-                    data: [30000, 32000, 29000, 31000, 33000, 35000],
+                    data: <?php echo json_encode($revenues); ?>,
                     backgroundColor: 'rgba(54, 162, 235, 0.2)',
                     borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1
                 },
                 {
                     label: 'Expenses',
-                    data: [20000, 22000, 21000, 23000, 24000, 25000],
+                    data: <?php echo json_encode($expenses); ?>,
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     borderColor: 'rgba(255, 99, 132, 1)',
                     borderWidth: 1

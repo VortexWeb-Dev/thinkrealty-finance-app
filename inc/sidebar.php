@@ -11,15 +11,7 @@
                 ['label' => "Dashboard", 'url' => 'index.php'],
                 ['label' => "Double Entry Bookkeeping", 'url' => 'double-entry-bookkeeping.php'],
                 ['label' => "Voucher Systems", 'url' => 'voucher-systems.php'],
-                ['label' => "Chart of Accounts", 'url' => 'chart-of-accounts.php'],
-                ['label' => "Ledgers", 'url' => 'ledgers.php'],
-                ['label' => "Trial Balance", 'url' => 'trial-balance.php'],
                 ['label' => "Income Statement", 'url' => 'income-statement.php'],
-                ['label' => "Balance Sheet", 'url' => 'balance-sheet.php'],
-                ['label' => "Debtors & Creditors Ageing", 'url' => 'debtors-creditors-ageing.php'],
-                ['label' => "Cash Flow Statements", 'url' => 'cash-flow-statements.php'],
-                ['label' => "Advanced Reporting", 'url' => 'advanced-reporting.php'],
-                ['label' => "Analytics", 'url' => 'analytics.php'],
             ];
             $page_url = basename($_SERVER['REQUEST_URI']);
 
